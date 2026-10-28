@@ -41,9 +41,9 @@ const Api = (function () {
   // Pre-seed offline users & contents if empty
   if (!localStorage.getItem(LS_USERS)) {
     setStorage(LS_USERS, [
-      { id: 1, unique_id: '1234', name: 'john_den', phone: '+251911223344', email: 'john@ethiopia.org', avatar: '/assets/avatars/avatar-1.jpg', role: 'user', is_guest: 0, created_at: '2026-10-28' },
-      { id: 2, unique_id: '1001', name: 'yared (አስተዳዳሪ)', phone: '+251966462684', email: 'bahirehasab27@gmail.com', avatar: '/assets/avatars/avatar-3.jpg', role: 'admin', is_guest: 0, created_at: '2026-10-28' },
-      { id: 3, unique_id: 'G901', name: 'እንግዳ ተጠቃሚ', phone: 'N/A', email: '', avatar: '/assets/avatars/avatar-default.svg', role: 'guest', is_guest: 1, created_at: '2026-10-28' }
+      { id: 1, unique_id: '1234', name: 'john_den', phone: '+251911223344', email: 'john@ethiopia.org', avatar: 'assets/avatars/avatar-1.jpg', role: 'user', is_guest: 0, created_at: '2026-10-28' },
+      { id: 2, unique_id: '1001', name: 'yared (አስተዳዳሪ)', phone: '+251966462684', email: 'bahirehasab27@gmail.com', avatar: 'assets/avatars/avatar-3.jpg', role: 'admin', is_guest: 0, created_at: '2026-10-28' },
+      { id: 3, unique_id: 'G901', name: 'እንግዳ ተጠቃሚ', phone: 'N/A', email: '', avatar: 'assets/avatars/avatar-default.svg', role: 'guest', is_guest: 1, created_at: '2026-10-28' }
     ]);
   }
 
@@ -132,7 +132,7 @@ const Api = (function () {
           name,
           phone,
           email: email || '',
-          avatar: avatar || '/assets/avatars/avatar-1.jpg',
+          avatar: avatar || 'assets/avatars/avatar-1.jpg',
           role: 'user',
           is_guest: 0,
           created_at: new Date().toISOString()
@@ -160,7 +160,7 @@ const Api = (function () {
           name,
           phone,
           email: '',
-          avatar: '/assets/avatars/avatar-1.jpg',
+          avatar: 'assets/avatars/avatar-1.jpg',
           role: 'user',
           is_guest: 0,
           created_at: new Date().toISOString()
@@ -183,7 +183,7 @@ const Api = (function () {
         name: `እንግዳ_${uniqueId}`,
         phone: 'N/A',
         email: '',
-        avatar: '/assets/avatars/avatar-default.svg',
+        avatar: 'assets/avatars/avatar-default.svg',
         role: 'guest',
         is_guest: 1
       };

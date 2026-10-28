@@ -19,7 +19,7 @@
     bahireHasabData: null,
     calendarData: null,
     adminStats: null,
-    selectedAvatar: '/assets/avatars/avatar-1.jpg'
+    selectedAvatar: 'assets/avatars/avatar-1.jpg'
   };
 
   // Toast notification helper
@@ -234,7 +234,7 @@
     const user = state.user || {
       name: 'እንግዳ',
       unique_id: 'G000',
-      avatar: '/assets/avatars/avatar-default.svg',
+      avatar: 'assets/avatars/avatar-default.svg',
       role: 'guest'
     };
 
@@ -244,7 +244,7 @@
 
     if (headerName) headerName.textContent = user.name;
     if (headerId) headerId.textContent = `id: #${user.unique_id}`;
-    if (headerAvatar) headerAvatar.src = user.avatar || '/assets/avatars/avatar-1.jpg';
+    if (headerAvatar) headerAvatar.src = user.avatar || 'assets/avatars/avatar-1.jpg';
 
     const welcomeGreeting = document.getElementById('welcome-user-name');
     if (welcomeGreeting) welcomeGreeting.textContent = user.name;
