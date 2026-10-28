@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="am" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ባሕረ ሐሳብ - ዘቅዱስ ድሜጥሮስ | Ethiopian Calendar & Computus</title>
+  
+  <!-- Favicon & Web Icon using the uploaded Angel Image -->
+  <link rel="icon" type="image/png" href="/assets/angel.png">
+  <link rel="apple-touch-icon" href="/assets/angel.png">
+  <meta name="theme-color" content="#441f0d">
+  <meta name="description" content="የኢትዮጵያ ዘመን አቆጣጠር እና የባሕረ ሐሳብ የቀመር ስሌት መተግበሪያ">
+
+  <!-- Google Fonts for Ethiopic Nyala / Noto Sans fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- =======================================================================
+       1. SPLASH / LOADING SCREEN (Interactive Celestial Animation with Angel)
+       ======================================================================= -->
+  <div id="screen-splash" class="screen-splash">
+    <div class="splash-header">
+      <h1 class="splash-title">ባሕረ ሐሳብ</h1>
+      <p class="splash-subtitle">ዘቅዱስ ድሜጥሮስ</p>
+    </div>
+
+    <!-- Celestial Angel Stage with Glowing Halo and Floating Sparkles -->
+    <div class="splash-icon-wrapper">
+      <div class="celestial-halo"></div>
+      <div class="celestial-ring"></div>
+      <div class="sparkle sparkle-1"></div>
+      <div class="sparkle sparkle-2"></div>
+      <div class="sparkle sparkle-3"></div>
+      <div class="sparkle sparkle-4"></div>
+      
+      <img src="/assets/angel.png" alt="የቅዱስ ኪሩቤል ምስል" class="splash-angel-img" id="splash-angel-img">
+    </div>
+
+    <div class="splash-footer">
+      <div class="splash-divider"></div>
+      
+      <button id="splash-proceed-btn" class="splash-welcome-row" type="button" aria-label="ወደ መተግበሪያው ይግቡ">
+        <span class="splash-welcome-text">እንኳን ደህና<br>መጡ</span>
+        <span class="splash-arrow-btn">➔</span>
+      </button>
+
+      <!-- Auto Progress Counter with Ge'ez and Percentage -->
+      <div class="splash-progress-container">
+        <div class="splash-loader-bar">
+          <div id="splash-loader-progress" class="splash-loader-progress"></div>
+        </div>
+        <div class="splash-percent-label">
+          <span id="splash-geez-count">ቀመር በመዘጋጀት ላይ... ፩%</span>
+          <span id="splash-percent-count">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       2. LOGIN SCREEN (Exact match with Image 4)
+       ======================================================================= -->
+  <div id="screen-auth-login" class="screen-auth">
+    <div class="auth-top-bar">
+      <button class="auth-back-btn" onclick="document.getElementById('screen-splash').classList.remove('hide'); document.getElementById('screen-splash').style.display='flex';" title="ተመለስ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="auth-headings">
+      <h2 class="auth-title">ሰላም<br>እንኳን ደህና መጡ</h2>
+      <p class="auth-switch-link">
+        አካውንት ከሌሎት <a id="link-to-signup">Sign up</a>
+      </p>
+    </div>
+
+    <div class="auth-art-container">
+      <img src="/assets/cross-circle.png" alt="የኢትዮጵያ ክብ መስቀል" class="auth-cross-circle">
+    </div>
+
+    <!-- White Card Bottom Slider -->
+    <div class="auth-card-sheet">
+      <form id="form-login">
+        <div class="form-group">
+          <input type="text" id="login-name" class="form-input" placeholder="ሙሉ ስም" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <input type="tel" id="login-phone" class="form-input" placeholder="ስልክ ቁጥር" required autocomplete="tel">
+        </div>
+
+        <div class="form-sub-link">
+          <a onclick="alert('ስልክ ቁጥርዎን እና ስምዎን ሲያስገቡ በራስ-ሰር ይገናኛሉ');">አካውንት ከጠፋቦት reset</a>
+        </div>
+
+        <button type="submit" class="btn-primary-auth">Sign in</button>
+        <button type="button" id="btn-guest-login" class="btn-guest-auth">
+          <span>👥 እንደ እንግዳ ይቀጥሉ (Use as Guest)</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       3. SIGN UP SCREEN (Exact match with Image 3)
+       ======================================================================= -->
+  <div id="screen-auth-signup" class="screen-auth">
+    <div class="auth-top-bar">
+      <button class="auth-back-btn" onclick="document.getElementById('screen-auth-signup').classList.remove('active'); document.getElementById('screen-auth-login').classList.add('active');" title="ተመለስ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="auth-headings">
+      <h2 class="auth-title">የራስን አዲስ<br>አካውንት ይክፈቱ</h2>
+      <p class="auth-switch-link">
+        አካውንት ካሎት <a id="link-to-login">Sign in</a>
+      </p>
+    </div>
+
+    <!-- White Card Bottom Slider -->
+    <div class="auth-card-sheet" style="padding-bottom: 20px;">
+      <form id="form-signup">
+        <div class="form-group">
+          <input type="text" id="signup-name" class="form-input" placeholder="ሙሉ ስም" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <input type="tel" id="signup-phone" class="form-input" placeholder="ስልክ ቁጥር" required autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <input type="email" id="signup-email" class="form-input" placeholder="ኢሜይል (አማራጭ)" autocomplete="email">
+        </div>
+
+        <button type="submit" class="btn-primary-auth">Sign up</button>
+      </form>
+
+      <!-- Bottom Ornamental Cross and Border Tibeb Pattern (Image 3) -->
+      <div class="auth-signup-ornament">
+        <img src="/assets/border-tibeb.png" alt="ጥበብ ድንበር" class="ornament-side-border">
+        <img src="/assets/cross-standing.png" alt="የኢትዮጵያ የቁም መስቀል" class="ornament-standing-cross">
+        <img src="/assets/border-tibeb.png" alt="ጥበብ ድንበር" class="ornament-side-border" style="transform: scaleX(-1);">
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       4. MAIN APPLICATION CONTAINER
+       ======================================================================= -->
+  <div class="app-container">
+
+    <!-- Top Navigation Header (Perfect 3-Column Alignment & Logout Icon) -->
+    <header class="app-header">
+      <!-- Left Column: Hamburger Menu -->
+      <div class="header-left-col">
+        <button id="btn-hamburger" class="btn-hamburger" aria-label="ሜኑ ክፈት" title="ሜኑ">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <!-- Center Column: Holy Blessing Text (Perfect Center) -->
+      <div class="header-center-col">
+        <h2 class="blessing-text">
+          በስመ አብ ወወልድ ወመንፈስ ቅዱስ አሐዱ<br>አምላክ አሜን
+        </h2>
+      </div>
+
+      <!-- Right Column: User Profile Badge + Logout Icon Button -->
+      <div class="header-right-col">
+        <!-- User Profile Pill (Click to change photo) -->
+        <div id="header-user-badge" class="header-user-badge" title="የመገለጫ ፎቶ ለመቀየር ይጫኑ">
+          <div class="header-user-info">
+            <span id="header-username" class="header-username">john_den</span>
+            <span id="header-user-id" class="header-user-id">id: #1234</span>
+          </div>
+          <div class="header-avatar-circle">
+            <img id="header-avatar-img" src="/assets/avatars/avatar-1.jpg" alt="የተጠቃሚ መገለጫ ፎቶ">
+          </div>
+        </div>
+
+        <!-- Dedicated Log Out Icon Button -->
+        <button id="btn-header-logout" class="btn-header-logout" type="button" title="ከመለያ ውጣ (Log Out)" aria-label="ከመለያ ውጣ">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide-in Navigation Drawer -->
+    <div id="nav-backdrop" class="nav-backdrop"></div>
+    <aside id="nav-drawer" class="nav-drawer">
+      <div class="drawer-header">
+        <img src="/assets/angel.png" alt="ባሕረ ሐሳብ ሎጎ" class="drawer-logo">
+        <div class="drawer-title">ባሕረ ሐሳብ</div>
+      </div>
+
+      <ul class="drawer-links">
+        <li class="drawer-item">
+          <a class="drawer-link active" data-page="home">
+            <span>🏠</span> ዋና ገጽ (ስሌት)
+          </a>
+        </li>
+        <li class="drawer-item">
+          <a class="drawer-link" data-page="calendar">
+            <span>📅</span> የቀን መቁጠሪያ (Services)
+          </a>
+        </li>
+        <li class="drawer-item">
+          <a class="drawer-link" data-page="history">
+            <span>📜</span> የባሕረ ሐሳብ ታሪክ
+          </a>
+        </li>
+        <li class="drawer-item">
+          <a class="drawer-link" data-page="contact">
+            <span>✉️</span> አግኙን (Contact)
+          </a>
+        </li>
+        <li class="drawer-item" id="drawer-admin-item">
+          <a class="drawer-link" data-page="admin" id="link-nav-admin">
+            <span>⚙️</span> የአድሚን ክፍል (Admin)
+          </a>
+        </li>
+      </ul>
+
+      <div class="drawer-footer">
+        <button id="btn-signout" class="btn-signout" type="button">
+          🚪 ከመለያ ውጣ (Sign Out)
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area with Pages -->
+    <main class="main-content">
+
+      <!-- ===================================================================
+           PAGE: HOME (Under Header Section, Year Input, Calculations)
+           =================================================================== -->
+      <section id="page-home" class="page-section active">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div>
+            <h2 class="welcome-greeting-title">እንኳን ደህና መጡ <span id="welcome-user-name">john_den</span></h2>
+            <p class="welcome-current-date">የኢትዮጵያ ዘመን አቆጣጠር እና የባሕረ ሐሳብ ስሌት መተግበሪያ</p>
+            <div class="welcome-today-saint">
+              ✨ ዛሬ፡ <span id="today-display">ጥቅምት 18 ቀን 2017 ዓ.ም</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Under Header Year Input Section -->
+        <div class="year-calculator-card">
+          <label for="input-year" class="year-input-label">
+            🔢 ዓመተ ምሕረት ያስገቡ (Enter Ethiopian Year):
+          </label>
+          <form id="form-year-calc" class="year-input-row">
+            <div class="input-year-wrapper">
+              <input type="number" id="input-year" class="input-year-field" placeholder="ምሳሌ: 2017" min="1" max="9999" value="2017" required>
+            </div>
+            <button type="submit" class="btn-calculate">
+              <span>ስሌቱን አውጣ</span>
+              <span>⚡</span>
+            </button>
+          </form>
+
+          <!-- Quick Selector Pills -->
+          <div class="quick-years">
+            <span style="font-size: 0.85rem; color:#795548; align-self:center;">ፈጣን ዓመታት፡</span>
+            <button type="button" class="chip-year" data-year="2015">2015</button>
+            <button type="button" class="chip-year" data-year="2016">2016 (ሠግር)</button>
+            <button type="button" class="chip-year active" data-year="2017">2017 (ያለንበት)</button>
+            <button type="button" class="chip-year" data-year="2018">2018</button>
+            <button type="button" class="chip-year" data-year="2019">2019</button>
+            <button type="button" class="chip-year" data-year="2020">2020</button>
+          </div>
+        </div>
+
+        <!-- Bahire Hasab Core Results Grid -->
+        <div class="results-grid">
+          <!-- Amete Alem -->
+          <div class="metric-card highlight">
+            <div class="metric-title">ዓመተ ዓለም (Year of the World)</div>
+            <div class="metric-value" id="metric-amete-alem">7517</div>
+            <div class="metric-geez" id="metric-amete-alem-geez">፭ሺ፭፻ + 2017 = ፸፭፻፲፯</div>
+            <div class="metric-sub">ከአዳም እስከ ዛሬ ያለው ዓመት</div>
+          </div>
+
+          <!-- Wengelawi -->
+          <div class="metric-card highlight">
+            <div class="metric-title">ወንጌላዊ (Evangelist)</div>
+            <div class="metric-value" id="metric-wengelawi">ዘመነ ማቴዎስ</div>
+            <div class="metric-sub" id="metric-wengelawi-sub">መደበኛ ዓመት</div>
+          </div>
+
+          <!-- Metene Rabiet -->
+          <div class="metric-card">
+            <div class="metric-title">መጠነ ራብዒት (Metene Rabiet)</div>
+            <div class="metric-value" id="metric-rabiet">1879</div>
+            <div class="metric-geez" id="metric-rabiet-geez">፲፰፻፸፱</div>
+            <div class="metric-sub">ዓመተ ዓለም ÷ 4</div>
+          </div>
+
+          <!-- Tinte Qemer -->
+          <div class="metric-card">
+            <div class="metric-title">ጥንተ ቀመር (New Year Start)</div>
+            <div class="metric-value" id="metric-tinte-qemer">ዕለተ ረቡዕ</div>
+            <div class="metric-sub" id="metric-tinte-qemer-sub">መስከረም ፩ (Wednesday)</div>
+          </div>
+
+          <!-- Medeb & Wenber -->
+          <div class="metric-card">
+            <div class="metric-title">መደብ እና ወንበር (Medeb & Wenber)</div>
+            <div class="metric-value">
+              <span id="metric-medeb">12</span> / <span id="metric-wenber">11</span>
+            </div>
+            <div class="metric-sub">መደብ = ዓመተ ዓለም % 19</div>
+          </div>
+
+          <!-- Abekti & Metqi -->
+          <div class="metric-card">
+            <div class="metric-title">አበቅቴ እና መጥቅዕ (Epact & Metqi)</div>
+            <div class="metric-value">
+              <span id="metric-abekti">1</span> & <span id="metric-metqi">29</span>
+            </div>
+            <div class="metric-sub" id="metric-metqi-sub">መስከረም 29 (ረቡዕ)</div>
+          </div>
+        </div>
+
+        <!-- Moveable Feasts & Fasts Section (የተንቀሳቃሽ አጽዋማት እና በዓላት ቀናት) -->
+        <div class="section-header-row">
+          <h3 class="section-heading">
+            <span class="section-heading-icon">✝️</span> የተንቀሳቃሽ አጽዋማት እና በዓላት ቀናት
+          </h3>
+        </div>
+
+        <div id="feasts-cards-container" class="feasts-container">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+
+        <!-- Fixed Feasts Section -->
+        <div class="section-header-row" style="margin-top: 10px;">
+          <h3 class="section-heading">
+            <span class="section-heading-icon">🌟</span> የማይለዋወጡ በዓላት እና አጽዋማት
+          </h3>
+        </div>
+        <div id="fixed-feasts-container" class="feasts-container">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+
+      </section>
+
+      <!-- ===================================================================
+           PAGE: CALENDAR & SERVICES (የቀን መቁጠሪያ)
+           =================================================================== -->
+      <section id="page-calendar" class="page-section">
+        <div class="calendar-widget">
+          <div class="calendar-nav-bar">
+            <button id="cal-prev-month" class="cal-nav-btn" type="button">◀ ያለፈው ወር</button>
+            <h2 id="cal-current-month" class="cal-month-title">መስከረም 2017</h2>
+            <button id="cal-next-month" class="cal-nav-btn" type="button">ቀጣይ ወር ▶</button>
+          </div>
+
+          <!-- Days of Week Header -->
+          <div class="calendar-grid-header">
+            <div>ሰኞ</div>
+            <div>ማክሰኞ</div>
+            <div>ረቡዕ</div>
+            <div>ሐሙስ</div>
+            <div>ዓርብ</div>
+            <div>ቅዳሜ</div>
+            <div>እሑድ</div>
+          </div>
+
+          <!-- Calendar Days Grid -->
+          <div id="cal-days-grid" class="calendar-grid-body">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Ethiopian <-> Gregorian Converter -->
+        <div class="converter-card">
+          <h3 style="font-size:1.3rem; color:var(--color-bg-deep); margin-bottom:12px;">🔄 የቀን መቀየሪያ (Date Converter)</h3>
+          <p style="color:var(--color-text-subtle); margin-bottom:16px;">የጎርጎሮሳውያንን ቀን ወደ ኢትዮጵያ ቀን ወይም በተቃራኒው ይቀይሩ።</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <input type="date" id="greg-date-input" class="form-input" style="max-width:220px;" value="2024-09-11">
+            <button type="button" class="btn-calculate" onclick="
+              const val = document.getElementById('greg-date-input').value;
+              if (val) {
+                const [y, m, d] = val.split('-').map(Number);
+                const eth = EthiopianCalendar.toEthiopian(y, m, d);
+                alert(`🇪🇹 የኢትዮጵያ ቀን፡ ${EthiopianCalendar.MONTHS_ETH[eth.month]} ${eth.day} ቀን ${eth.year} ዓ.ም`);
+              }
+            ">ወደ ኢትዮጵያ ቀን ቀይር</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           PAGE: HISTORY (የባሕረ ሐሳብ ታሪክ)
+           =================================================================== -->
+      <section id="page-history" class="page-section">
+        <div class="history-hero">
+          <img src="/assets/cross-circle.png" alt="የቅዱስ ድሜጥሮስ ባሕረ ሐሳብ" style="width:90px; height:90px; object-fit:contain;">
+          <div class="history-hero-text">
+            <h2>የባሕረ ሐሳብ ታሪክ እና ቀኖናዊ አመጣጥ</h2>
+            <p>በቅዱስ ድሜጥሮስ መንፈሳዊ ጥበብ እና በኒቂያ ጉባኤ የጸደቀው የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን ድንቅ የቀመር ስሌት።</p>
+          </div>
+        </div>
+
+        <div id="history-articles-list" class="history-articles-list">
+          <!-- Dynamically populated from SQLite Database -->
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           PAGE: CONTACT (አግኙን - Direct Email to bahirehasab27@gmail.com)
+           =================================================================== -->
+      <section id="page-contact" class="page-section">
+        <div class="contact-layout">
+          <div class="contact-card">
+            <span class="contact-badge-email">📬 ቀጥታ መልእክት ወደ bahirehasab27@gmail.com</span>
+            <h3 style="font-size:1.45rem; color:var(--color-bg-deep); margin-bottom:14px;">✉️ አስተያየት ወይም ጥያቄ ይላኩልን</h3>
+            <form id="contact-form">
+              <div class="form-group">
+                <input type="text" id="contact-name" class="form-input" placeholder="ሙሉ ስምዎ" required>
+              </div>
+              <div class="form-group">
+                <input type="tel" id="contact-phone" class="form-input" placeholder="ስልክ ቁጥር" value="+251966462684">
+              </div>
+              <div class="form-group">
+                <input type="email" id="contact-email" class="form-input" placeholder="የእርስዎ ኢሜይል" required>
+              </div>
+              <div class="form-group">
+                <input type="text" id="contact-subject" class="form-input" placeholder="የመልእክቱ ርዕስ" value="ስለ ባሕረ ሐሳብ ጥያቄ" required>
+              </div>
+              <div class="form-group">
+                <textarea id="contact-message" class="form-input" rows="4" placeholder="መልእክትዎን እዚህ ይጻፉ..." required></textarea>
+              </div>
+              <button type="submit" class="btn-calculate" style="width:100%; justify-content:center; gap:10px;">
+                <span>መልእክቱን ወደ bahirehasab27@gmail.com ላክ</span>
+                <span>📧</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="contact-card" style="background-color: var(--color-bg-soft);">
+            <h3 style="font-size:1.45rem; color:var(--color-bg-deep); margin-bottom:16px;">🏛️ ስለ ባሕረ ሐሳብ አገልግሎት</h3>
+            <p style="color:var(--color-text-dark); line-height:1.7; margin-bottom:20px;">
+              ይህ መተግበሪያ የተዘጋጀው የኢትዮጵያን ዘመን አቆጣጠር፣ የቀኖና አጽዋማትንና በዓላትን በዘመናዊ፣ ፈጣን እና ቀለል ባለ ቴክኖሎጂ ለምዕመናን እና ለተመራማሪዎች ተደራሽ ለማድረግ ነው።
+            </p>
+            <div class="contact-info-item">
+              <span style="font-size:1.4rem;">📍</span>
+              <div>
+                <strong>አድራሻ፡</strong><br>አዲስ አበባ፣ ኢትዮጵያ
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <span style="font-size:1.4rem;">📞</span>
+              <div>
+                <strong>ስልክ ቁጥር፡</strong><br>
+                <a href="tel:+251966462684" style="color:var(--color-gold-deep); font-weight:700; text-decoration:none;">+251966462684</a>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <span style="font-size:1.4rem;">📧</span>
+              <div>
+                <strong>ኢሜይል (Email):</strong><br>
+                <a href="mailto:bahirehasab27@gmail.com" style="color:var(--color-gold-deep); font-weight:700; text-decoration:none;">bahirehasab27@gmail.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           PAGE: ADMIN DASHBOARD (Accessible by yared / yared2442)
+           =================================================================== -->
+      <section id="page-admin" class="page-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h2 style="font-size:1.75rem; color:var(--color-bg-deep);">
+              ⚙️ የአስተዳዳሪ ቁጥጥር ማዕከል (Admin Control Center)
+            </h2>
+            <p style="color:var(--color-text-subtle); font-size:0.95rem;">የገባው አስተዳዳሪ፡ <strong id="admin-display-name">yared (አስተዳዳሪ)</strong></p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <span class="admin-badge">Admin Authenticated</span>
+            <button class="cal-nav-btn" style="padding:6px 12px; background:#fde8e8; color:#c53030;" onclick="window.App.logoutAdmin()">ውጣ</button>
+          </div>
+        </div>
+
+        <!-- KPI Tracking Cards -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div style="color:var(--color-text-subtle); font-size:0.88rem;">የተመዘገቡ ተጠቃሚዎች</div>
+            <div class="admin-stat-num" id="stat-total-users">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="color:var(--color-text-subtle); font-size:0.88rem;">የእንግዳ ተጠቃሚዎች</div>
+            <div class="admin-stat-num" id="stat-total-guests">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="color:var(--color-text-subtle); font-size:0.88rem;">የይዘት ጽሑፎች</div>
+            <div class="admin-stat-num" id="stat-total-articles">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="color:var(--color-text-subtle); font-size:0.88rem;">የገቡ መልእክቶች (Inquiries)</div>
+            <div class="admin-stat-num" id="stat-total-messages">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <div style="color:var(--color-text-subtle); font-size:0.88rem;">የክትትል ምዝግቦች (Logs)</div>
+            <div class="admin-stat-num" id="stat-total-calcs">0</div>
+          </div>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" data-tab="users">👥 ተጠቃሚዎች (Users)</button>
+          <button class="admin-tab-btn" data-tab="content">📝 ይዘት ማስተዳደሪያ (Contents)</button>
+          <button class="admin-tab-btn" data-tab="messages">📥 የገቡ መልእክቶች (bahirehasab27@gmail.com)</button>
+          <button class="admin-tab-btn" data-tab="audit">📊 የክትትል መዝገብ (Activity Audit)</button>
+        </div>
+
+        <!-- TAB 1: USERS -->
+        <div id="admin-tab-users" class="admin-tab-content">
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ልዩ መለያ (ID)</th>
+                  <th>ስም</th>
+                  <th>ስልክ</th>
+                  <th>ኢሜይል</th>
+                  <th>ሚና</th>
+                  <th>የተመዘገበበት</th>
+                  <th>ተግባር</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: CONTENT MANAGEMENT -->
+        <div id="admin-tab-content" class="admin-tab-content" style="display:none;">
+          <!-- Add New Content Form -->
+          <div class="history-article-card" style="margin-bottom:20px;">
+            <h3 style="font-size:1.25rem; margin-bottom:12px; color:var(--color-bg-deep);">➕ አዲስ ይዘት / ጽሑፍ ጨምር</h3>
+            <form id="admin-content-form">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
+                <input type="text" id="content-title" class="form-input" placeholder="የጽሑፉ ርዕስ" required>
+                <select id="content-category" class="form-input">
+                  <option value="history">ታሪክ (History)</option>
+                  <option value="theology">ቀኖና / ሥነ መለኮት (Theology)</option>
+                  <option value="calendar">የዘመን አቆጣጠር (Calendar)</option>
+                  <option value="fasting">አጽዋማት (Fasting)</option>
+                </select>
+                <input type="text" id="content-author" class="form-input" placeholder="ደራሲ / አቅራቢ" value="አስተዳዳሪ ያሬድ">
+              </div>
+              <div class="form-group">
+                <textarea id="content-body" class="form-input" rows="4" placeholder="ዝርዝር ይዘት..." required></textarea>
+              </div>
+              <button type="submit" class="btn-calculate">ይዘቱን ጨምር</button>
+            </form>
+          </div>
+
+          <!-- Existing Contents List -->
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>ርዕስ</th>
+                  <th>ምድብ</th>
+                  <th>ደራሲ</th>
+                  <th>ተግባር</th>
+                </tr>
+              </thead>
+              <tbody id="admin-contents-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: MESSAGES -->
+        <div id="admin-tab-messages" class="admin-tab-content" style="display:none;">
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ስም</th>
+                  <th>ስልክ</th>
+                  <th>ርዕስ</th>
+                  <th>መልእክት</th>
+                  <th>የተላከበት</th>
+                  <th>ተግባር</th>
+                </tr>
+              </thead>
+              <tbody id="admin-messages-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 4: AUDIT LOGS -->
+        <div id="admin-tab-audit" class="admin-tab-content" style="display:none;">
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ዓይነት (Event)</th>
+                  <th>ዝርዝር መረጃ (Details)</th>
+                  <th>ተጠቃሚ (User/ID)</th>
+                  <th>ጊዜ (Time)</th>
+                </tr>
+              </thead>
+              <tbody id="admin-logs-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- =======================================================================
+       5. ADMIN LOGIN MODAL (Protected by yared / yared2442)
+       ======================================================================= -->
+  <div id="modal-admin-login" class="modal-backdrop">
+    <div class="modal-dialog" style="max-width: 400px; text-align: center;">
+      <div style="font-size: 2.8rem; margin-bottom: 8px;">🔐</div>
+      <h3 class="modal-title">የአስተዳዳሪ መግቢያ (Admin Portal)</h3>
+      <p style="color:var(--color-text-subtle); font-size:0.92rem; margin: 6px 0 20px;">
+        የአድሚን ዳሽቦርድ ለመጠቀም እባክዎ የአስተዳዳሪውን ስም እና የይለፍ ቃል ያስገቡ።
+      </p>
+
+      <form id="form-admin-login">
+        <div class="form-group" style="text-align: left;">
+          <label style="font-size:0.85rem; font-weight:700; color:var(--color-text-dark); margin-bottom:4px; display:block;">የአስተዳዳሪ ስም (Username):</label>
+          <input type="text" id="admin-login-username" class="form-input" placeholder="yared" required autocomplete="username">
+        </div>
+        <div class="form-group" style="text-align: left;">
+          <label style="font-size:0.85rem; font-weight:700; color:var(--color-text-dark); margin-bottom:4px; display:block;">የይለፍ ቃል (Password):</label>
+          <input type="password" id="admin-login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn-primary-auth" style="margin-top: 6px;">ግባ (Verify & Login)</button>
+        <button type="button" id="btn-close-admin-modal" class="btn-guest-auth" style="margin-top: 10px;">ሰርዝ (Cancel)</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       6. PROFILE PHOTO PICKER MODAL
+       ======================================================================= -->
+  <div id="modal-profile-photo" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 class="modal-title">🖼️ የመገለጫ ፎቶ ይምረጡ</h3>
+        <button id="btn-close-photo-modal" style="background:none; border:none; font-size:1.6rem; cursor:pointer; color:#795548;">&times;</button>
+      </div>
+      <p style="color:var(--color-text-subtle); font-size:0.95rem; margin-top:4px;">
+        ከቀረቡት ምስሎች አንዱን ይምረጡ ወይም ከስልክዎ/ኮምፒውተርዎ አዲስ ፎቶ ይስቀሉ።
+      </p>
+
+      <!-- Presets -->
+      <div class="avatar-presets-grid">
+        <div class="avatar-option selected" data-avatar="/assets/avatars/avatar-1.jpg" onclick="window.App.selectAvatar('/assets/avatars/avatar-1.jpg')">
+          <img src="/assets/avatars/avatar-1.jpg" alt="አምሳያ 1">
+        </div>
+        <div class="avatar-option" data-avatar="/assets/avatars/avatar-2.jpg" onclick="window.App.selectAvatar('/assets/avatars/avatar-2.jpg')">
+          <img src="/assets/avatars/avatar-2.jpg" alt="አምሳያ 2">
+        </div>
+        <div class="avatar-option" data-avatar="/assets/avatars/avatar-3.jpg" onclick="window.App.selectAvatar('/assets/avatars/avatar-3.jpg')">
+          <img src="/assets/avatars/avatar-3.jpg" alt="አምሳያ 3">
+        </div>
+        <div class="avatar-option" data-avatar="/assets/avatars/avatar-4.jpg" onclick="window.App.selectAvatar('/assets/avatars/avatar-4.jpg')">
+          <img src="/assets/avatars/avatar-4.jpg" alt="አምሳያ 4">
+        </div>
+      </div>
+
+      <!-- Upload custom file -->
+      <div style="margin-top:16px; text-align:center;">
+        <label for="input-custom-photo" class="btn-guest-auth" style="display:inline-flex; width:auto; padding:10px 18px; cursor:pointer;">
+          📁 ከስልክ ወይም ኮምፒውተር ፎቶ ስቀል
+        </label>
+        <input type="file" id="input-custom-photo" accept="image/*" style="display:none;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/js/bahireHasab.js"></script>
+  <script src="/js/ethiopianCalendar.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
